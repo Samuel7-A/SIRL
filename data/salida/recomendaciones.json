@@ -1,0 +1,5 @@
+[
+  { "titulo": "It", "genero": "terror", "autor": "king" },
+  { "titulo": "The Shining", "genero": "terror", "autor": "king" },
+  { "titulo": "Harry Potter", "genero": "fantasia", "autor": "rowling" }
+]

@@ -1,0 +1,9 @@
+# =====================================================
+# SIRL - Sistema Inteligente de Recomendación de Libros
+# Archivo: requirements.txt
+# Descripción: Dependencias del módulo Python
+# =====================================================
+
+# pyswip: permite ejecutar consultas Prolog desde Python
+# Requiere tener SWI-Prolog instalado en el sistema
+pyswip==0.2.10
