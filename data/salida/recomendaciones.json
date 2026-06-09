@@ -1,5 +1,26 @@
 [
-  { "titulo": "It", "genero": "terror", "autor": "king" },
-  { "titulo": "The Shining", "genero": "terror", "autor": "king" },
-  { "titulo": "Harry Potter", "genero": "fantasia", "autor": "rowling" }
+  {
+    "titulo": "Clean Code",
+    "genero": "programacion",
+    "autor": "martin",
+    "enlace_compra": "https://openlibrary.org/search?q=Clean%20Code"
+  },
+  {
+    "titulo": "The Pragmatic Programmer",
+    "genero": "programacion",
+    "autor": "hunt",
+    "enlace_compra": "https://openlibrary.org/search?q=The%20Pragmatic%20Programmer"
+  },
+  {
+    "titulo": "Design Patterns",
+    "genero": "programacion",
+    "autor": "gamma",
+    "enlace_compra": "https://openlibrary.org/search?q=Design%20Patterns"
+  },
+  {
+    "titulo": "Introduction to Algorithms",
+    "genero": "algoritmos",
+    "autor": "cormen",
+    "enlace_compra": "https://openlibrary.org/search?q=Introduction%20to%20Algorithms"
+  }
 ]

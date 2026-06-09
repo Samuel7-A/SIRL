@@ -1,0 +1,22 @@
+{
+  "sistema": "SIRL - Sistema Inteligente de Recomendacion de Libros",
+  "operacion": "estadisticas",
+  "timestamp": "2026-06-08T18:28:43.486261",
+  "resultado": {
+    "total_libros": 20,
+    "total_autores": 19,
+    "total_generos": 10,
+    "libros_por_genero": {
+      "programacion": 3,
+      "ciencia_ficcion": 5,
+      "historia": 1,
+      "algoritmos": 1,
+      "distopia": 2,
+      "clasico": 1,
+      "ciencia": 1,
+      "inteligencia_artificial": 1,
+      "terror": 3,
+      "fantasia": 2
+    }
+  }
+}

@@ -1,0 +1,16 @@
+# Scala / SBT - archivos de compilación
+target/
+project/target/
+*.class
+*.jar
+
+# Python - archivos de caché
+__pycache__/
+*.pyc
+*.pyo
+.env/
+venv/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db

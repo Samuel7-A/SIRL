@@ -1,7 +1,11 @@
 // =====================================================
 // SIRL - Sistema Inteligente de Recomendación de Libros
 // Archivo: Main.scala
-// Descripción: Punto de entrada principal del sistema
+// Rol de Scala: COORDINADOR y PRESENTACIÓN.
+//   Scala captura las preferencias del usuario,
+//   invoca Python (que consulta Prolog), lee el JSON
+//   de respuesta y presenta los resultados formateados.
+//   Arquitectura preparada para evolucionar a API REST.
 // =====================================================
 
 package app
@@ -9,74 +13,89 @@ package app
 import app.modelos.Usuario
 import app.servicios.RecomendadorService
 import scala.io.StdIn.readLine
+import scala.sys.process._
 
 object Main extends App {
 
-  println("=" * 50)
+  println("=" * 55)
   println("  SIRL: Sistema Inteligente de Recomendación de Libros")
-  println("=" * 50)
-  println()
+  println("  Arquitectura: Scala → Python → Prolog → JSON")
+  println("=" * 55)
 
-  // -------------------------------------------------------
-  // PASO 1: Capturar preferencias del usuario
-  // -------------------------------------------------------
-  println("Bienvenido. Por favor ingresa tus preferencias:")
-  print("Tu nombre: ")
-  val nombre = readLine()
+  println("\n1. Recomendación rápida")
+  println("2. Menú completo (Python)")
+  println("3. Salir")
 
-  println("\nGéneros disponibles: programacion, algoritmos, inteligencia_artificial,")
-  println("  ciencia_ficcion, distopia, terror, fantasia, historia, ciencia, clasico")
-  print("Tu género favorito: ")
-  val genero = readLine()
+  print("\nSelecciona una opción: ")
+  val opcion = readLine()
 
-  println("\nAutores disponibles: martin, hunt, gamma, cormen, russell, herbert,")
-  println("  orwell, huxley, king, tolkien, rowling, harari, hawking, fitzgerald")
-  print("Tu autor favorito (o presiona Enter para omitir): ")
-  val autorInput = readLine()
-  val autor = if (autorInput.trim.isEmpty) "ninguno" else autorInput.trim
+  opcion match {
 
-  // Crear el objeto usuario con sus preferencias
-  val usuario = Usuario(
-    nombre         = nombre,
-    generoFavorito = genero,
-    autorFavorito  = autor
-  )
+    case "1" =>
 
-  println(s"\n$usuario")
-  println()
+      print("\nTu nombre: ")
+      val nombre = readLine()
 
-  // -------------------------------------------------------
-  // PASO 2: Guardar preferencias en JSON para Python/Prolog
-  // -------------------------------------------------------
-  RecomendadorService.escribirPreferencias(usuario)
+      println("\nGéneros: programacion, algoritmos, inteligencia_artificial,")
+      println("  ciencia_ficcion, distopia, terror, fantasia, historia, ciencia, clasico")
 
-  // -------------------------------------------------------
-  // PASO 3: Invocar Python que consultará Prolog
-  // -------------------------------------------------------
-  val exito = RecomendadorService.ejecutarModuloPython()
+      print("Tu género favorito: ")
+      val genero = readLine()
 
-  // -------------------------------------------------------
-  // PASO 4: Leer y mostrar las recomendaciones
-  // -------------------------------------------------------
-  if (exito) {
-    val recomendaciones = RecomendadorService.leerRecomendaciones()
+      print("Tu autor favorito (Enter para omitir): ")
+      val autorInput = readLine()
 
-    println()
-    println("=" * 50)
-    println(s"  Recomendaciones para ${usuario.nombre}:")
-    println("=" * 50)
+      val autor =
+        if (autorInput.trim.isEmpty) "ninguno"
+        else autorInput.trim
 
-    if (recomendaciones.isEmpty) {
-      println("No se encontraron recomendaciones para tus preferencias.")
-    } else {
-      recomendaciones.zipWithIndex.foreach { case (libro, i) =>
-        println(s"${i + 1}. $libro")
+      val usuario = Usuario(nombre, genero, autor)
+
+      RecomendadorService.escribirPreferencias(usuario)
+
+      val exito = RecomendadorService.ejecutarModuloPython()
+
+      if (exito) {
+
+        val recomendaciones =
+          RecomendadorService.leerRecomendaciones()
+
+        println()
+        println("=" * 55)
+        println(s"Recomendaciones para ${usuario.nombre}")
+        println("=" * 55)
+
+        recomendaciones.zipWithIndex.foreach {
+          case (libro, i) =>
+            println(s"\n${i + 1}. ${libro.titulo}")
+            println(s"   Género : ${libro.genero}")
+            println(s"   Autor  : ${libro.autor}")
+            println(s"   URL    : ${libro.enlaceCompra}")
+        }
+
+      } else {
+        println("[ERROR] No se pudo ejecutar Python.")
       }
-    }
-  } else {
-    println("\n[Error] No se pudo completar la recomendación. Verifica que Python esté instalado.")
-  }
 
-  println()
-  println("Gracias por usar SIRL.")
+  case "2" =>
+
+    println("\nAbriendo menú completo de Python...\n")
+
+    Process(
+      Seq(
+        "cmd",
+        "/c",
+        "start",
+        "cmd",
+        "/k",
+        "python ../python/src/main.py"
+      )
+    ).!
+
+    case "3" =>
+      println("Hasta luego.")
+
+    case _ =>
+      println("Opción inválida.")
+  }
 }
